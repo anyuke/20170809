@@ -72,7 +72,7 @@ router.get('/callback', function(req, res) {
 
 router.get('/home', function(req, res, next) {
 	res.render('index', {
-		title: 'WELCOME!!!'
+		title: 'welcome home ' + req.session.nickname
 	});
 });
 
