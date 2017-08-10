@@ -28,6 +28,8 @@ var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(cal
 	// 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
 	token = JSON.stringify(token);
 	token = JSON.parse(token);
+	console.log('token.accessToken:', token.accessToken);
+	console.log('token.expireTime:', token.expireTime);
 	redisUtil.client().setex('accessToken', token.expireTime, token.accessToken);
 });
 // var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret);
