@@ -1,7 +1,9 @@
 var wechat = require('wechat');
+var weixinConfig = require('../config/weixin.js');
+
 var verifyInfo = { //验证信息
-	token: 'weixin', // your wechat token
-	appid: 'wx203bc5fc5c004105' // your wechat appid
+	token: weixinConfig.token, // your wechat token
+	appid: weixinConfig.appid // your wechat appid
 };
 
 function wechatText(message, req, res, next) {
@@ -39,4 +41,6 @@ function wechatText(message, req, res, next) {
 //处理文本消息
 var handler = wechat(verifyInfo, wechat.text(wechatText));
 
-module.exports = handler;
+module.exports = {
+	handler: handler
+};

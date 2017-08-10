@@ -1,8 +1,67 @@
 var express = require('express');
 var router = express.Router();
+var weixinConfig = require('../config/weixin.js');
+var OAuth = require('wechat-oauth');
+var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(openid, callback) {
+		var sql = 'SELECT * FROM token WHERE openid = ?';
+		db.query(sql, [openid], function(err, result) {
+			if (err) {
+				return callback(err);
+			}
+			return callback(null, result[0]);
+		});
+	},
+	function(openid, token, callback) {
+		var sql = 'REPLACE INTO token(access_token, expires_in, refresh_token, openid, scope, create_at) VALUES(?, ?, ?, ?, ?, ?)';
+		var fields = [token.access_token, token.expires_in, token.refresh_token, token.openid, token.scope, token.create_at];
+		db.query(sql, fields, function(err, result) {
+			return callback(err);
+		});
+	});
 
-/* GET home page. */
-router.all('/weixin', 
-	require('../modules/wechat'));
+/* 自动回复. */
+router.all('/weixin',
+	require('../modules/wechat').handler);
+
+// 主页,主要是负责OAuth认真
+router.get('/', function(req, res) {
+	var url = client.getAuthorizeURL('http://' + req.hostname + '/wx/callback', '', 'snsapi_userinfo');
+	res.redirect(url);
+});
+
+/**
+ * 认证授权后回调函数
+ *
+ * 根据openid判断是否用户已经存在
+ * - 如果是新用户，注册并绑定，然后跳转到手机号验证界面
+ * - 如果是老用户，跳转到主页
+ */
+router.get('/callback', function(req, res) {
+	console.log('----weixin callback -----')
+	var code = req.query.code;
+
+	var User = req.model.UserModel;
+
+	client.getAccessToken(code, function(err, result) {
+		console.dir(err)
+		console.dir(result)
+		var accessToken = result.data.access_token;
+		var openid = result.data.openid;
+
+		console.log('token=' + accessToken);
+		console.log('openid=' + openid);
+		client.getUser(openid, function(err, result) {
+			var userInfo = result;
+			console.dir('userInfo: \n', userInfo);
+			res.redirect('/wx/home/');
+		});
+	});
+});
+
+router.get('/home', function(req, res, next) {
+	res.render('index', {
+		title: 'WELCOME!!!'
+	});
+});
 
 module.exports = router;
