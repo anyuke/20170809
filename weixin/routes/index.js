@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var weixinConfig = require('../config/weixin.js');
+var mysqlUtil = require('../common/mysqlUtil.js');
+
 var OAuth = require('wechat-oauth');
 var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(openid, callback) {
 		var sql = 'SELECT * FROM token WHERE openid = ?';
-		db.query(sql, [openid], function(err, result) {
+		mysqlUtil.execute(sql, [openid], function(err, result) {
 			if (err) {
 				return callback(err);
 			}
@@ -14,7 +16,7 @@ var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(open
 	function(openid, token, callback) {
 		var sql = 'REPLACE INTO token(access_token, expires_in, refresh_token, openid, scope, create_at) VALUES(?, ?, ?, ?, ?, ?)';
 		var fields = [token.access_token, token.expires_in, token.refresh_token, token.openid, token.scope, token.create_at];
-		db.query(sql, fields, function(err, result) {
+		mysqlUtil.execute(sql, fields, function(err, result) {
 			return callback(err);
 		});
 	});
