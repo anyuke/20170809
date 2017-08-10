@@ -3,6 +3,7 @@ var router = express.Router();
 var weixinConfig = require('../config/weixin.js');
 var mysqlUtil = require('../common/mysqlUtil.js');
 var user = require('../modules/user.js');
+var redisUtil = require('../common/redisUtil');
 
 var OAuth = require('wechat-oauth');
 var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(openid, callback) {
@@ -70,9 +71,19 @@ router.get('/callback', function(req, res) {
 });
 
 router.get('/home', function(req, res, next) {
-	res.render('index', {
-		title: 'welcome home ' + req.query.nickname
-	});
+	redisUtil.client().get('accessToken', function(err, reply) {
+        if (err) {
+            console.error(err);
+        }
+        if (!reply) {
+            console.error("redis 找不到 accessToken");
+        }
+        res.render('index', {
+			title: 'welcome home ' + req.query.nickname,
+			token: reply
+		});
+    });
+	
 });
 
 module.exports = router;
