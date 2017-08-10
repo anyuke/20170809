@@ -1,0 +1,30 @@
+module.exports = {
+	"wx_menu": {
+		"button": [{
+			"name": "菜单",
+			"sub_button": [{
+				"type": "view",
+				"name": "资讯菜单",
+				"url": "http://ip:port/all"
+			}]
+		}, {
+			"name": "菜单2",
+			"sub_button": [{
+				"type": "view",
+				"name": "我的11",
+				"url": "http://ip:port/all"
+			}]
+		}, {
+			"name": "助理",
+			"sub_button": [{
+				"type": "view",
+				"name": "大学",
+				"url": "http://ip:port/all"
+			}, {
+				"type": "view",
+				"name": "社区",
+				"url": "http://ip:port/all"
+			}]
+		}]
+	}
+};
