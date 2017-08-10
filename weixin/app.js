@@ -10,27 +10,27 @@ var users = require('./routes/users');
 var WechatAPI = require('wechat-api');
 var menu = require('./config/menu.js');
 var weixinConfig = require('./config/weixin.js');
-var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(callback) {
-	// 传入一个获取全局token的方法
-	var sql = 'SELECT * FROM access_token';
-	mysqlUtil.execute(sql, [], function(err, result) {
-		if (err) {
-			return callback(err);
-		}
-		return callback(null, result[0]);
-	});
-}, function(token, callback) {
-	// 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
-	// 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
-	token = JSON.stringify(token);
-	token = JSON.parse(token);
-	var sql = 'REPLACE INTO access_token(access_token, expires_in) VALUES(?, ?)';
-	var fields = [token.accessToken, token.expireTime];
-	mysqlUtil.execute(sql, fields, function(err, result) {
-		return callback(err);
-	});
-});
-
+// var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(callback) {
+// 	// 传入一个获取全局token的方法
+// 	var sql = 'SELECT * FROM access_token';
+// 	mysqlUtil.execute(sql, [], function(err, result) {
+// 		if (err) {
+// 			return callback(err);
+// 		}
+// 		return callback(null, result[0]);
+// 	});
+// }, function(token, callback) {
+// 	// 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
+// 	// 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
+// 	token = JSON.stringify(token);
+// 	token = JSON.parse(token);
+// 	var sql = 'REPLACE INTO access_token(access_token, expires_in) VALUES(?, ?)';
+// 	var fields = [token.accessToken, token.expireTime];
+// 	mysqlUtil.execute(sql, fields, function(err, result) {
+// 		return callback(err);
+// 	});
+// });
+var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret);
 var app = express();
 
 // view engine setup
