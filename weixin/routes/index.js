@@ -39,20 +39,14 @@ router.get('/', function(req, res) {
  * - 如果是老用户，跳转到主页
  */
 router.get('/callback', function(req, res) {
-	console.log('----weixin callback -----')
 	var code = req.query.code;
-
 	client.getAccessToken(code, function(err, result) {
-		console.dir(err);
-		console.dir(result);
 		var accessToken = result.data.access_token;
 		var openid = result.data.openid;
-
-		console.log('token=' + accessToken);
-		console.log('openid=' + openid);
 		client.getUser(openid, function(err, result) {
 			var userInfo = result;
-			console.dir('userInfo: \n', userInfo);
+			console.log('userInfo:');
+			console.log(userInfo);
 			res.redirect('/wx/home/');
 		});
 	});

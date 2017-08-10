@@ -4,7 +4,7 @@ var pool = mysql.createPool(mysqlConfig);
 module.exports = {
     getConnection: function (callback) {
         if (pool === null) {
-            pool = mysql.createPool(config.mysql);
+            pool = mysql.createPool(mysqlConfig);
         }
         pool.getConnection(function (err, conn) {
             callback(err, conn);
@@ -12,7 +12,7 @@ module.exports = {
     },
     execute: function (sql, params, callback) {
         if (pool === null) {
-            pool = mysql.createPool(config.mysql);
+            pool = mysql.createPool(mysqlConfig);
         }
         pool.getConnection(function (err, coon) {
             if (err) {
@@ -33,7 +33,7 @@ module.exports = {
 
     executeArray: function (sqls, params, callback) {
         if (pool === null) {
-            pool = mysql.createPool(config.mysql);
+            pool = mysql.createPool(mysqlConfig);
         }
         pool.getConnection(function (err, coon) {
             if (err) {
@@ -74,7 +74,7 @@ module.exports = {
 
     query_page:function(sql, from_idx, to_idx, params, callback){
         if (pool === null) {
-            pool = mysql.createPool(config.mysql);
+            pool = mysql.createPool(mysqlConfig);
         }
         pool.getConnection(function (err, coon) {
             if (err) {
@@ -116,7 +116,7 @@ module.exports = {
         }
 
         if (pool === null) {
-            pool = mysql.createPool(config.mysql);
+            pool = mysql.createPool(mysqlConfig);
         }
         pool.getConnection(function (err, coon) {
             if (err) {
@@ -189,7 +189,7 @@ module.exports = {
         }
 
         if (pool === null) {
-            pool = mysql.createPool(config.mysql);
+            pool = mysql.createPool(mysqlConfig);
         }
         pool.getConnection(function (err, coon) {
             if (err) {
