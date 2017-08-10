@@ -11,7 +11,24 @@ var WechatAPI = require('wechat-api');
 var menu = require('./config/menu');
 var weixinConfig = require('./config/weixin');
 var redisUtil = require('./common/redisUtil');
-
+var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(callback) {
+	// 传入一个获取全局token的方法
+	redisUtil.client().get('accessToken', function(err, reply) {
+		if (err) {
+			console.error(err);
+		}
+		callback(null, reply);
+	});
+}, function(token, callback) {
+	// 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
+	// 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
+	token = JSON.stringify(token);
+	token = JSON.parse(token);
+	console.log('token.accessToken:', token.accessToken);
+	console.log('token.expireTime:', token.expireTime);
+	redisUtil.client().setex('accessToken', token.expireTime, token.accessToken);
+	callback();
+});
 // var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret);
 var app = express();
 
@@ -23,30 +40,15 @@ app.set('view engine', 'ejs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+	extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
 	console.log('wechat-api start');
-	var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(callback) {
-		// 传入一个获取全局token的方法
-		redisUtil.client().get('accessToken', function(err, reply) {
-	        if (err) {
-	            console.error(err);
-	        }
-	        return reply;
-	    });
-	}, function(token, callback) {
-		// 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
-		// 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
-		token = JSON.stringify(token);
-		token = JSON.parse(token);
-		console.log('token.accessToken:', token.accessToken);
-		console.log('token.expireTime:', token.expireTime);
-		redisUtil.client().setex('accessToken', token.expireTime, token.accessToken);
-	});
-	api.createMenu(menu.wx_menu, function (err, results) {
+	api.createMenu(menu.wx_menu, function(err, results) {
 		if (err) {
 			next(err);
 		}
@@ -59,20 +61,20 @@ app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+	var err = new Error('Not Found');
+	err.status = 404;
+	next(err);
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+	// set locals, only providing error in development
+	res.locals.message = err.message;
+	res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+	// render the error page
+	res.status(err.status || 500);
+	res.render('error');
 });
 
 module.exports = app;
