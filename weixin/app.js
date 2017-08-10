@@ -35,9 +35,6 @@ app.use(function (req, res, next) {
 	        if (err) {
 	            console.error(err);
 	        }
-	        if (!reply) {
-	            console.error("redis 找不到 accessToken 1111111111111111");
-	        }
 	        return reply;
 	    });
 	}, function(token, callback) {
