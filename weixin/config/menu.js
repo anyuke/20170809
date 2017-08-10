@@ -1,12 +1,9 @@
 module.exports = {
 	"wx_menu": {
 		"button": [{
-			"name": "菜单",
-			"sub_button": [{
-				"type": "view",
-				"name": "资讯菜单",
-				"url": "http://ip:port/all"
-			}]
+			"type": "view",
+			"name": "首页",
+			"url": "http://www.lyf-free.com/wx/"
 		}, {
 			"name": "菜单2",
 			"sub_button": [{

@@ -11,6 +11,7 @@ var WechatAPI = require('wechat-api');
 var menu = require('./config/menu');
 var weixinConfig = require('./config/weixin');
 var redisUtil = require('./common/redisUtil');
+
 var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(callback) {
 	// 传入一个获取全局token的方法
 	redisUtil.client().get('accessToken', function(err, reply) {
@@ -29,6 +30,7 @@ var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(cal
 	redisUtil.client().setex('accessToken', token.expireTime, token.accessToken);
 	callback();
 });
+
 // var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret);
 var app = express();
 
@@ -47,7 +49,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
-	console.log('wechat-api start');
 	api.createMenu(menu.wx_menu, function(err, results) {
 		if (err) {
 			next(err);
