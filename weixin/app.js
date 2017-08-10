@@ -22,8 +22,8 @@ var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(cal
 }, function(token, callback) {
 	// 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
 	// 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
-	token = JSON.parse(token);
-	console.log('token: \n', token.AccessToken.accessToken);
+	token = JSON.stringify(token);
+	console.log('token: \n', token);
 	console.log('token.AccessToken: ', token.AccessToken);
 	console.log('token.AccessToken.accessToken: ', token.AccessToken.accessToken);
 	var sql = 'REPLACE INTO access_token(access_token) VALUES(?)';
