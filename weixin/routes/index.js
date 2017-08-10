@@ -43,13 +43,7 @@ var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(cal
 	});
 });
 
-api.createMenu(menu.wx_menu, function(err, result) {
-	console.log('11111111111111111');
-	if (err) {
-		return res.send(404, err);
-	}
-	next();
-});
+api.createMenu(menu.wx_menu, callback);
 
 /* 自动回复. */
 router.all('/weixin',
