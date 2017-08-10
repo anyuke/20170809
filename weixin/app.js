@@ -12,26 +12,6 @@ var menu = require('./config/menu');
 var weixinConfig = require('./config/weixin');
 var redisUtil = require('./common/redisUtil');
 
-var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(callback) {
-	// 传入一个获取全局token的方法
-	redisUtil.client().get('accessToken', function(err, reply) {
-        if (err) {
-            console.error(err);
-        }
-        if (!reply) {
-            console.error("redis 找不到 accessToken");
-        }
-        return reply;
-    });
-}, function(token, callback) {
-	// 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
-	// 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
-	token = JSON.stringify(token);
-	token = JSON.parse(token);
-	console.log('token.accessToken:', token.accessToken);
-	console.log('token.expireTime:', token.expireTime);
-	redisUtil.client().setex('accessToken', token.expireTime, token.accessToken);
-});
 // var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret);
 var app = express();
 
@@ -48,6 +28,27 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
+	console.log('wechat-api start');
+	var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(callback) {
+		// 传入一个获取全局token的方法
+		redisUtil.client().get('accessToken', function(err, reply) {
+	        if (err) {
+	            console.error(err);
+	        }
+	        if (!reply) {
+	            console.error("redis 找不到 accessToken");
+	        }
+	        return reply;
+	    });
+	}, function(token, callback) {
+		// 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
+		// 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
+		token = JSON.stringify(token);
+		token = JSON.parse(token);
+		console.log('token.accessToken:', token.accessToken);
+		console.log('token.expireTime:', token.expireTime);
+		redisUtil.client().setex('accessToken', token.expireTime, token.accessToken);
+	});
 	api.createMenu(menu.wx_menu, function (err, results) {
 		if (err) {
 			next(err);
