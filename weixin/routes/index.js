@@ -48,8 +48,6 @@ router.get('/callback', function(req, res) {
 			if (0 == results.length) {
 				client.getUser(openid, function(err, result) {
 					var userInfo = result;
-					console.log('userInfo:');
-					console.log(userInfo);
 					user.add(userInfo, function (err, results) {
 						if (err) {
 							return res.send(404, err);
@@ -57,20 +55,14 @@ router.get('/callback', function(req, res) {
 						if (!req.session) {
 							req.session = {};
 						}
-						req.session.userId = userInfo.openid;
-						req.session.nickname = userInfo.nickname;
-						res.redirect('/wx/home/');
+						res.redirect('/wx/home/?nickname='+userInfo.nickname);
 					});
 				});
 			} else {
 				if (!req.session) {
 					req.session = {};
 				}
-				console.log('results[0]:', results[0]);
-				req.session.userId = results[0].openid;
-				req.session.nickname = results[0].nickname;
-				console.log('req.session:', req.session);
-				res.redirect('/wx/home/');
+				res.redirect('/wx/home/?nickname='+results[0].nickname);
 			}
 		});
 		
@@ -79,7 +71,7 @@ router.get('/callback', function(req, res) {
 
 router.get('/home', function(req, res, next) {
 	res.render('index', {
-		title: 'welcome home ' + req.session.nickname
+		title: 'welcome home ' + req.query.nickname
 	});
 });
 
