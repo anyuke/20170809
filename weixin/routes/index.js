@@ -69,6 +69,7 @@ router.get('/callback', function(req, res) {
 				console.log('results[0]:', results[0]);
 				req.session.userId = results[0].openid;
 				req.session.nickname = results[0].nickname;
+				console.log('req.session:', req.session);
 				res.redirect('/wx/home/');
 			}
 		});
