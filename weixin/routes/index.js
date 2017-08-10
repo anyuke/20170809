@@ -76,7 +76,7 @@ router.get('/home', function(req, res, next) {
             console.error(err);
         }
         if (!reply) {
-            console.error("redis 找不到 accessToken");
+            console.error("redis 找不到 accessToken 222222222222");
         }
         res.render('index', {
 			title: 'welcome home ' + req.query.nickname,
