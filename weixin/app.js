@@ -23,12 +23,8 @@ var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(cal
 	// 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
 	// 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
 	token = JSON.stringify(token);
-	console.log('stringify token: \n', token);
 	token = JSON.parse(token);
-	console.log('parse token: \n', token);
-	console.log('token.accessToken: ', token.accessToken);
-	console.log('token.expireTime: ', token.expireTime);
-	var sql = 'REPLACE INTO access_token(access_token, expireTime) VALUES(?, ?)';
+	var sql = 'REPLACE INTO access_token(access_token, expires_in) VALUES(?, ?)';
 	var fields = [token.accessToken, token.expireTime];
 	mysqlUtil.execute(sql, fields, function(err, result) {
 		return callback(err);
