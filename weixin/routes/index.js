@@ -50,11 +50,17 @@ router.get('/callback', function(req, res) {
 					var userInfo = result;
 					console.log('userInfo:');
 					console.log(userInfo);
+					if (!req.session) {
+						req.session = {};
+					}
 					req.session.userId = userInfo.openid;
 					req.session.nickname = userInfo.nickname;
 					res.redirect('/wx/home/');
 				});
 			} else {
+				if (!req.session) {
+					req.session = {};
+				}
 				req.session.userId = results[0].openid;
 				req.session.nickname = results[0].nickname;
 				res.redirect('/wx/home/');
