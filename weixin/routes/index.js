@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var weixinConfig = require('../config/weixin.js');
 var wechat = require('../modules/wechat');
-var wechatApp = new wechat(weixinConfig);
 var mysqlUtil = require('../common/mysqlUtil.js');
 var redisUtil = require('../common/redisUtil');
 
@@ -28,7 +27,7 @@ var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(open
 	});
 
 /* 服务器认证和自动消息回复. */
-router.all('/auth', wechatApp.auth);
+router.all('/auth', require('../modules/wechat').auth);
 
 // 主页,主要是负责OAuth认证
 router.get('/OAuth', function(req, res) {

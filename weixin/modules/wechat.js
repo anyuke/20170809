@@ -1,13 +1,12 @@
 var wechat = require('wechat');
+var weixinConfig = require('../config/weixin.js');
 
 //构建 WeChat 对象 即 js中 函数就是对象
-var WechatApp = function(config) {
-	//设置 WeChat 对象属性 config
-	this.config = config;
+var WechatApp = {
+	auth: wechat(weixinConfig, wechat.text(wechatText))
 };
 
 function wechatText(message, req, res, next) {
-	console.log('----------------step 3');
 	var input = (message.Content || '').trim();
 
 	if (/你好/.test(input)) {
@@ -38,13 +37,5 @@ function wechatText(message, req, res, next) {
 		res.reply('(¬_¬)ﾉ 听不懂啦');
 	}
 }
-
-WechatApp.prototype.auth = function(req, res) {
-	var config = {
-		token: this.config.toekn,
-		appid: this.config.appid
-	};
-	wechat(config, wechat.text(wechatText));
-};
 
 module.exports = WechatApp;
