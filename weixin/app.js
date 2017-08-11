@@ -52,12 +52,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
 	console.log('==========进入程序=========');
-	api.createMenu(menu.wx_menu, function(err, results) {
-		if (err) {
-			next(err);
-		}
-		next();
-	});
+	// api.createMenu(menu.wx_menu, function(err, results) {
+	// 	if (err) {
+	// 		next(err);
+	// 	}
+	// 	next();
+	// });
 });
 
 app.use('/', index);

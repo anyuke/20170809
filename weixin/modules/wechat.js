@@ -1,9 +1,22 @@
-var wechat = require('wechat');
-var weixinConfig = require('../config/weixin.js');
+'use strict'
 
-var verifyInfo = { //验证信息
-	token: weixinConfig.token, // your wechat token
-	appid: weixinConfig.appid // your wechat appid
+var wechat = require('wechat');
+
+//构建 WeChat 对象 即 js中 函数就是对象
+var WeChat = function(config) {
+	//设置 WeChat 对象属性 config
+	this.config = config;
+
+	//设置 WeChat 对象属性 token
+	this.token = config.token;
+};
+
+WeChat.prototype.auth = function(req, res) {
+	var verifyInfo = { //验证信息
+		token: this.token,
+		appid: this.config.appid
+	};
+	wechat(verifyInfo, wechat.text(wechatText))
 };
 
 function wechatText(message, req, res, next) {
@@ -38,9 +51,5 @@ function wechatText(message, req, res, next) {
 	}
 }
 
-//处理文本消息
-var handler = wechat(verifyInfo, wechat.text(wechatText));
-
-module.exports = {
-	handler: handler
-};
+//暴露可供外部访问的接口
+module.exports = WeChat;

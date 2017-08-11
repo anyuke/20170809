@@ -2,9 +2,13 @@ var express = require('express');
 var router = express.Router();
 var weixinConfig = require('../config/weixin.js');
 var mysqlUtil = require('../common/mysqlUtil.js');
-var user = require('../modules/user.js');
 var redisUtil = require('../common/redisUtil');
+
+var user = require('../modules/user');
 var sign = require('../common/signature').sign;
+
+var wechat = require('../modules/wechat');
+var wechatApp = new wechat(weixinConfig); //实例wechat 模块
 
 var OAuth = require('wechat-oauth');
 var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(openid, callback) {
@@ -25,11 +29,12 @@ var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(open
 	});
 
 /* 自动回复. */
-router.all('/weixin',
-	require('../modules/wechat').handler);
+router.get('/', function(req, res) {
+	wechatApp.auth(req, res);
+});
 
 // 主页,主要是负责OAuth认证
-router.get('/', function(req, res) {
+router.get('/OAuth', function(req, res) {
 	// 生成引导用户点击的URL
 	var url = client.getAuthorizeURL('http://' + req.hostname + '/wx/callback', '', 'snsapi_userinfo');
 	res.redirect(url);
