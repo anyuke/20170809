@@ -4,6 +4,7 @@ var weixinConfig = require('../config/weixin.js');
 var mysqlUtil = require('../common/mysqlUtil.js');
 var user = require('../modules/user.js');
 var redisUtil = require('../common/redisUtil');
+var sign = require('../common/signature').sign;
 
 var OAuth = require('wechat-oauth');
 var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(openid, callback) {
@@ -27,8 +28,9 @@ var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(open
 router.all('/weixin',
 	require('../modules/wechat').handler);
 
-// 主页,主要是负责OAuth认真
+// 主页,主要是负责OAuth认证
 router.get('/', function(req, res) {
+	// 生成引导用户点击的URL
 	var url = client.getAuthorizeURL('http://' + req.hostname + '/wx/callback', '', 'snsapi_userinfo');
 	res.redirect(url);
 });
@@ -38,6 +40,7 @@ router.get('/', function(req, res) {
  */
 router.get('/callback', function(req, res) {
 	var code = req.query.code;
+	// 用户点击上步生成的URL后会被重定向到上步设置的 redirectUrl，并且会带有code参数，我们可以使用这个code换取access_token和用户的openid
 	client.getAccessToken(code, function(err, result) {
 		var accessToken = result.data.access_token;
 		var openid = result.data.openid;
@@ -72,18 +75,26 @@ router.get('/callback', function(req, res) {
 
 router.get('/home', function(req, res, next) {
 	redisUtil.client().get('accessToken', function(err, reply) {
-        if (err) {
-            console.error(err);
-        }
-        if (!reply) {
-            console.error("redis 找不到 accessToken");
-        }
-        res.render('index', {
+		if (err) {
+			console.error(err);
+		}
+		if (!reply) {
+			console.error("redis 找不到 accessToken");
+		}
+		res.render('index', {
 			title: 'welcome home ' + req.query.nickname,
 			token: reply
 		});
-    });
-	
+	});
+});
+
+router.get('/sign', function(req, res, next) {
+	var url = req.query.url;
+	sign(url, function(err, reuslts) {
+		reuslts.appId = weixinConfig.appid;
+		res.json(reuslts);
+		return;
+	});
 });
 
 module.exports = router;

@@ -14,7 +14,9 @@
     "morgan": "~1.8.1",
     "mysql": "^2.14.1",
     "redis": "^2.8.0",
+    "request": "^2.81.0",
     "serve-favicon": "~2.4.2",
+    "sha1": "^1.1.1",
     "wechat": "^2.1.0",
     "wechat-api": "^1.35.0",
     "wechat-oauth": "^1.2.1"
