@@ -60,7 +60,7 @@ router.get('/callback', function(req, res) {
 
 router.get('/home', function(req, res, next) {
 	if (!req.session.openid) {
-		return res.redirect('/OAuth');
+		return res.redirect('http://' + req.hostname + '/wx/OAuth');
 	}
 	res.render('index', {
 		title: 'welcome home ',
