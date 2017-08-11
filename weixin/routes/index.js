@@ -4,7 +4,7 @@ var weixinConfig = require('../config/weixin.js');
 var wechatApp = require('../modules/wechat');
 var mysqlUtil = require('../common/mysqlUtil.js');
 var redisUtil = require('../common/redisUtil');
-
+var login_check = require('../common/login_check');
 var user = require('../modules/user');
 var sign = require('../common/signature').sign;
 
@@ -58,10 +58,7 @@ router.get('/callback', function(req, res) {
 	});
 });
 
-router.get('/home', function(req, res, next) {
-	if (!req.session.openid) {
-		return res.redirect('http://' + req.hostname + '/wx/OAuth');
-	}
+router.get('/home', login_check, function(req, res, next) {
 	res.render('index', {
 		title: 'welcome home ',
 		token: req.session.openid
