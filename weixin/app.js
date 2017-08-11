@@ -13,8 +13,11 @@ var redisUtil = require('./common/redisUtil');
 var request = require('request');
 var task = require('./task/weixin');
 
+redisUtil.client().del(weixinConfig.weixinAccessTokenPrefix);
+redisUtil.client().del(weixinConfig.weixinTicketPrefix);
+
 task.refresh();
-// redisUtil.client().del('ticket');
+
 
 var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(callback) {
 	// 传入一个获取全局token的方法

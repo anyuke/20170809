@@ -5,6 +5,8 @@ var weixinConfig = require('../config/weixin');
 
 exports.refresh= function () {
     var mission = function () {
+        console.log('weixinConfig.appid: ', weixinConfig.appid);
+        console.log('weixinConfig.appsecret: ', weixinConfig.appsecret);
         request.post('https://api.weixin.qq.com/cgi-bin/token', {form: {grant_type: 'client_credential', appid: weixinConfig.appid, secret: weixinConfig.appsecret}}, function (err, rsp, body) {
             if (err) {
                 console.error(err);
