@@ -12,10 +12,12 @@ var WeChat = function(config) {
 };
 
 WeChat.prototype.auth = function(req, res) {
+	console.log('-----------------step 2');
 	var verifyInfo = { //验证信息
 		token: this.token,
 		appid: this.config.appid
 	};
+	console.log('verifyInfo:\n', verifyInfo);
 	wechat(verifyInfo, wechat.text(wechatText))
 };
 
