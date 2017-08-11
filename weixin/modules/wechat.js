@@ -11,16 +11,6 @@ var WeChat = function(config) {
 	this.token = config.token;
 };
 
-WeChat.prototype.auth = function(message, req, res) {
-	console.log('-----------------step 2');
-	var verifyInfo = { //验证信息
-		token: this.token,
-		appid: this.config.appid
-	};
-	console.log('verifyInfo:\n', verifyInfo);
-	wechat(verifyInfo, wechat.text(wechatText))
-};
-
 function wechatText(message, req, res, next) {
 	console.log('----------------step 3');
 	var input = (message.Content || '').trim();
@@ -53,6 +43,16 @@ function wechatText(message, req, res, next) {
 		res.reply('(¬_¬)ﾉ 听不懂啦');
 	}
 }
+
+WeChat.prototype.auth = function(message, req, res, next) {
+	console.log('-----------------step 2');
+	var verifyInfo = { //验证信息
+		token: this.token,
+		appid: this.config.appid
+	};
+	console.log('verifyInfo:\n', verifyInfo);
+	wechat(verifyInfo, wechat.text(wechatText));
+};
 
 //暴露可供外部访问的接口
 module.exports = WeChat;
