@@ -36,9 +36,8 @@ var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(cal
 api.createMenu(menu.wx_menu, function(err, results) {
 	console.log('-------------创建菜单-------------');
 	if (err) {
-		next(err);
+		console.error(err);
 	}
-	next();
 });
 
 // var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret);
