@@ -13,7 +13,7 @@ module.exports = {
 	},
 
 	add: function (userInfo, callback) {
-		var sql = 'INSERT INTO user SET ? ON DUPLICATE KEY UPDATE nickname = ?, sex = ?, province = ?, city = ?, country = ?, headimgurl = ?, unionid = ?';
+		var sql = 'INSERT INTO user SET ? ON DUPLICATE KEY UPDATE nickname = ?, sex = ?, province = ?, city = ?, country = ?, headimgurl = ?, unionid = ?, updateTime = ?';
 	    var value = {
 	        openid: userInfo.openid,
 	        nickname: userInfo.nickname,
@@ -23,8 +23,10 @@ module.exports = {
 	        country: userInfo.country,
 	        headimgurl: userInfo.headimgurl,
 	        unionid: userInfo.unionid,
+	        createTime: Date.now(),
+	        updateTime: Date.now()
 	    };
-	    var params = [value, userInfo.nickname, userInfo.sex, userInfo.province, userInfo.city, userInfo.country, userInfo.headimgurl, userInfo.unionid];
+	    var params = [value, userInfo.nickname, userInfo.sex, userInfo.province, userInfo.city, userInfo.country, userInfo.headimgurl, userInfo.unionid, Date.now()];
 	    mysqlUtil.execute(sql, params, function (err, results) {
 	    	if (err) {
 				return callback(err);
