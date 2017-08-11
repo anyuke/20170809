@@ -90,7 +90,7 @@ router.get('/home', function(req, res, next) {
 
 router.get('/sign', function(req, res, next) {
 	var url = req.query.url;
-	sign(url, function(err, results) {
+	sign(url, function(results) {
 		console.log('results:', results);
 		results.appId = weixinConfig.appid;
 		res.json(results);
