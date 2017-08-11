@@ -12,6 +12,10 @@ exports.refresh= function () {
                 console.error(err);
                 return;
             }
+            if(JSON.parse(body).errcode != null){
+                console.error("weixin api error : %s", JSON.parse(body).errmsg);
+                return;
+            }
             var accessToken = JSON.parse(body).access_token;
             console.log('accessToken:', accessToken);
             if (accessToken) {
