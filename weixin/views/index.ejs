@@ -29,7 +29,7 @@ $(function(){
       type: 'get',
       dataType: 'json',
       data: {
-          url: encodeURIComponent(window.location.href.split('#')[0])
+          url: window.location.href.split('#')[0]
       },
       success: function(data){
          wx.config({
