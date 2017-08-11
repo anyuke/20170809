@@ -59,14 +59,14 @@ router.get('/callback', function(req, res) {
 						if (!req.session) {
 							req.session = {};
 						}
-						res.redirect('/wx/home/?nickname=' + userInfo.nickname);
+						res.redirect('/wx/home/');
 					});
 				});
 			} else {
 				if (!req.session) {
 					req.session = {};
 				}
-				res.redirect('/wx/home/?nickname=' + results[0].nickname);
+				res.redirect('/wx/home/');
 			}
 		});
 
@@ -82,7 +82,7 @@ router.get('/home', function(req, res, next) {
 			console.error("redis 找不到 accessToken");
 		}
 		res.render('index', {
-			title: 'welcome home ' + req.query.nickname,
+			title: 'welcome home ',
 			token: reply
 		});
 	});
@@ -90,9 +90,10 @@ router.get('/home', function(req, res, next) {
 
 router.get('/sign', function(req, res, next) {
 	var url = req.query.url;
-	sign(url, function(err, reuslts) {
-		reuslts.appId = weixinConfig.appid;
-		res.json(reuslts);
+	sign(url, function(err, results) {
+		console.log('results:', results);
+		results.appId = weixinConfig.appid;
+		res.json(results);
 		return;
 	});
 });
