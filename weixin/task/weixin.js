@@ -5,15 +5,13 @@ var weixinConfig = require('../config/weixin');
 
 exports.refresh= function () {
     var mission = function () {
-        console.log('weixinConfig.appid: ', weixinConfig.appid);
-        console.log('weixinConfig.appsecret: ', weixinConfig.appsecret);
         request.post('https://api.weixin.qq.com/cgi-bin/token', {form: {grant_type: 'client_credential', appid: weixinConfig.appid, secret: weixinConfig.appsecret}}, function (err, rsp, body) {
             if (err) {
                 console.error(err);
                 return;
             }
             if(JSON.parse(body).errcode != null){
-                console.error("weixin api error : %s", JSON.parse(body).errmsg);
+                console.error("weixin api access_token error : %s", JSON.parse(body).errmsg);
                 return;
             }
             var accessToken = JSON.parse(body).access_token;
@@ -21,6 +19,10 @@ exports.refresh= function () {
             if (accessToken) {
                 redisUtil.client().setex(weixinConfig.weixinAccessTokenPrefix, weixinConfig.weixinExpireTime, accessToken);
                 request.post('https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi', {form: {access_token: accessToken, type: 'jsapi'}}, function (err, rsp, body) {
+                    if(JSON.parse(body).errcode != null){
+                        console.error("weixin api ticket error : %s", JSON.parse(body).errmsg);
+                        return;
+                    }
                     var ticket = JSON.parse(body).ticket;
                     console.log('ticket:', ticket);
                     if (ticket) {
