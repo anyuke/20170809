@@ -11,7 +11,7 @@ var WeChat = function(config) {
 	this.token = config.token;
 };
 
-WeChat.prototype.auth = function(req, res) {
+WeChat.prototype.auth = function(message, req, res) {
 	console.log('-----------------step 2');
 	var verifyInfo = { //验证信息
 		token: this.token,
@@ -22,6 +22,7 @@ WeChat.prototype.auth = function(req, res) {
 };
 
 function wechatText(message, req, res, next) {
+	console.log('----------------step 3');
 	var input = (message.Content || '').trim();
 
 	if (/你好/.test(input)) {
