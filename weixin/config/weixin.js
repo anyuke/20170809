@@ -6,5 +6,7 @@ module.exports = {
 	noncestr: 'Wm3WZYTPz0wzccnW',
 	accessTokenUrl: 'https://api.weixin.qq.com/cgi-bin/token',
 	ticketUrl: 'https://api.weixin.qq.com/cgi-bin/ticket/getticket',
-	cache_duration: 7000  //缓存时长为7000秒
+	weixinAccessTokenPrefix: 'WEIXIN_ACCESS_TOKEN',
+	weixinTicketPrefix: 'WEIXIN_TICKET',
+    weixinExpireTime: 7200,
 };

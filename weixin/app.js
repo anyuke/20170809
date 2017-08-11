@@ -11,14 +11,15 @@ var WechatAPI = require('wechat-api');
 var menu = require('./config/menu');
 var weixinConfig = require('./config/weixin');
 var redisUtil = require('./common/redisUtil');
+var task = require('./task/weixin');
 
-redisUtil.client().del('ticket');
+task.refresh();
+// redisUtil.client().del('ticket');
 
 var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(callback) {
 	// 传入一个获取全局token的方法
-	redisUtil.client().get('accessToken', function(err, reply) {
-		console.log('获取全局Token');
-		console.log('reply:', reply);
+	redisUtil.client().get(weixinConfig.weixinAccessTokenPrefix, function(err, reply) {
+		console.log('获取全局AccessToken: ', reply);
 		if (err) {
 			console.error(err);
 		}
@@ -27,11 +28,10 @@ var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(cal
 }, function(token, callback) {
 	// 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
 	// 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
-	console.log('缓存全局Token');
-	console.log('token:', token);
+	console.log('缓存全局AccessToken', token);
 	token = JSON.stringify(token);
 	token = JSON.parse(token);
-	redisUtil.client().setex('accessToken', token.expireTime, token.accessToken);
+	redisUtil.client().setex(weixinConfig.weixinAccessTokenPrefix, weixinConfig.weixinExpireTime, token.accessToken);
 	callback();
 });
 

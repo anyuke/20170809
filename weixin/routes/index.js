@@ -58,7 +58,7 @@ router.get('/callback', function(req, res) {
 });
 
 router.get('/home', function(req, res, next) {
-	redisUtil.client().get('accessToken', function(err, reply) {
+	redisUtil.client().get(weixinConfig.weixinAccessTokenPrefix, function(err, reply) {
 		if (err) {
 			console.error(err);
 		}
