@@ -68,10 +68,7 @@ router.get('/callback', function(req, res) {
 });
 
 router.get('/home', function(req, res, next) {
-	redisUtil.client().get('accessToken', function(err, reply) {
-		if (err) {
-			console.error(err);
-		}
+	redisUtil.client().get('accessToken', function(reply) {
 		if (!reply) {
 			console.error("redis 找不到 accessToken");
 		}

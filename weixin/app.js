@@ -20,7 +20,7 @@ var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(cal
 		if (err) {
 			console.error(err);
 		}
-		callback(null, reply);
+		callback(reply);
 	});
 }, function(token, callback) {
 	// 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
