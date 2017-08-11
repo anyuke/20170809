@@ -10,21 +10,21 @@ var sign = require('../common/signature').sign;
 
 var OAuth = require('wechat-oauth');
 var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(openid, callback) {
-		var sql = 'SELECT * FROM token WHERE openid = ?';
-		mysqlUtil.execute(sql, [openid], function(err, result) {
-			if (err) {
-				return callback(err);
-			}
-			return callback(null, result[0]);
-		});
-	},
-	function(openid, token, callback) {
-		var sql = 'REPLACE INTO token(access_token, expires_in, refresh_token, openid, scope, create_at) VALUES(?, ?, ?, ?, ?, ?)';
-		var fields = [token.access_token, token.expires_in, token.refresh_token, token.openid, token.scope, token.create_at];
-		mysqlUtil.execute(sql, fields, function(err, result) {
+	var sql = 'SELECT * FROM token WHERE openid = ?';
+	mysqlUtil.execute(sql, [openid], function(err, result) {
+		if (err) {
 			return callback(err);
-		});
+		}
+		return callback(null, result[0]);
 	});
+},
+function(openid, token, callback) {
+	var sql = 'REPLACE INTO token(access_token, expires_in, refresh_token, openid, scope, create_at) VALUES(?, ?, ?, ?, ?, ?)';
+	var fields = [token.access_token, token.expires_in, token.refresh_token, token.openid, token.scope, token.create_at];
+	mysqlUtil.execute(sql, fields, function(err, result) {
+		return callback(err);
+	});
+});
 
 /* 服务器认证和自动消息回复. */
 router.all('/auth', wechatApp.auth);

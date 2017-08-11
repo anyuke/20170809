@@ -103,45 +103,6 @@ app.use(session({
     store: store,
 }));
 
-app.get("/api/setsession", function(req, res) {
-    req.session.openid = '';
-    req.session.nickname = '';
-    res.json({
-        status: 100,
-        msg: 'success'
-    });
-    return;
-});
-
-app.get("/api/getsession", function(req, res) {
-
-    if (!req.session || !req.session.id) {
-        res.json({
-            status: 1,
-            msg: "session id not found !"
-        });
-        return;
-    }
-
-    app.locals.store.get(req.session.id, function(err, session) {
-        if (err) {
-            res.json({
-                status: 1,
-                sessionid: req.session.id,
-                msg: err.message
-            });
-            return;
-        }
-        res.json({
-            status: 100,
-            msg: "操作成功",
-            sessionid: req.session.id,
-            session: session
-        });
-        return;
-    });
-});
-
 app.use('/', index);
 app.use('/users', users);
 
