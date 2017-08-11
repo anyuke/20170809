@@ -25,7 +25,7 @@ exports.sign = function(url, callback) {
 								timestamp: timestamp,
 								url: url,
 								jsapi_ticket: ticketMap.ticket,
-								signature: sha1('jsapi_ticket=' + ticketMap.ticket + '&noncestr=' + noncestr + '×tamp=' + timestamp + '&url=' + url)
+								signature: sha1('jsapi_ticket=' + ticketMap.ticket + '&noncestr=' + noncestr + '&timestamp=' + timestamp + '&url=' + url)
 							});
 						}
 					});
@@ -39,7 +39,7 @@ exports.sign = function(url, callback) {
 				timestamp: timestamp,
 				url: url,
 				jsapi_ticket: jsapi_ticket,
-				signature: sha1('jsapi_ticket=' + jsapi_ticket + '&noncestr=' + noncestr + '×tamp=' + timestamp + '&url=' + url)
+				signature: sha1('jsapi_ticket=' + jsapi_ticket + '&noncestr=' + noncestr + '&timestamp=' + timestamp + '&url=' + url)
 			});
 		}
 	});
