@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var weixinConfig = require('../config/weixin.js');
-var wechat = require('../modules/wechat');
+var wechatApp = require('../modules/wechat');
 var mysqlUtil = require('../common/mysqlUtil.js');
 var redisUtil = require('../common/redisUtil');
 
@@ -27,7 +27,7 @@ var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(open
 	});
 
 /* 服务器认证和自动消息回复. */
-router.all('/auth', require('../modules/wechat').auth);
+router.all('/auth', wechatApp.auth);
 
 // 主页,主要是负责OAuth认证
 router.get('/OAuth', function(req, res) {
@@ -45,26 +45,15 @@ router.get('/callback', function(req, res) {
 	client.getAccessToken(code, function(err, result) {
 		var accessToken = result.data.access_token;
 		var openid = result.data.openid;
-		// 判断用户是否已存在
-		user.query(openid, function(err, results) {
-			if (err) {
-				return res.send(404, err);
-			}
-			if (0 == results.length) {
-				client.getUser(openid, function(err, result) {
-					var userInfo = result;
-					user.add(userInfo, function(err, results) {
-						if (err) {
-							return res.send(404, err);
-						}
-						res.redirect('/wx/home/');
-					});
-				});
-			} else {
+		client.getUser(openid, function(err, result) {
+			var userInfo = result;
+			user.add(userInfo, function(err, results) {
+				if (err) {
+					return res.send(404, err);
+				}
 				res.redirect('/wx/home/');
-			}
+			});
 		});
-
 	});
 });
 
