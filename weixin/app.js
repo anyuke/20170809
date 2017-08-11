@@ -4,13 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mysqlUtil = require('./common/mysqlUtil');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var WechatAPI = require('wechat-api');
 var menu = require('./config/menu');
 var weixinConfig = require('./config/weixin');
 var redisUtil = require('./common/redisUtil');
+var request = require('request');
 var task = require('./task/weixin');
 
 task.refresh();
