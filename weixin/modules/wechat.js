@@ -4,7 +4,7 @@ var wechat = require('wechat');
 var sha1 = require('sha1');
 
 //构建 WeChat 对象 即 js中 函数就是对象
-var WeChat = function(config) {
+var WechatApp = function(config) {
 	//设置 WeChat 对象属性 config
 	this.config = config;
 
@@ -45,64 +45,15 @@ function wechatText(message, req, res, next) {
 	}
 }
 
-WeChat.prototype.auth = function(req, res) {
-	//1.获取微信服务器Get请求的参数 signature、timestamp、nonce、echostr
-	var signature = req.query.signature, //微信加密签名
-		timestamp = req.query.timestamp, //时间戳
-		nonce = req.query.nonce, //随机数
-		echostr = req.query.echostr; //随机字符串
-
-	//2.将token、timestamp、nonce三个参数进行字典序排序
-	var array = [this.token, timestamp, nonce];
-	array.sort();
-
-	//3.将三个参数字符串拼接成一个字符串进行sha1加密
-	var tempStr = array.join('');
-	// const hashCode = crypto.createHash('sha1'); //创建加密类型 
-	var resultCode = sha1(tempStr); //对传入的字符串进行加密
-
-	//4.开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
-	if (resultCode === signature) {
-		res.send(echostr);
-	} else {
-		res.send('mismatch');
-	}
+WechatApp.prototype.auth = function(req, res) {
+	var verifyInfo = { //验证信息
+		token: this.token,
+		appid: this.config.appid
+	};
+	console.log('verifyInfo:\n', verifyInfo);
+	wechat(verifyInfo, wechat.text(wechatText));
 };
 
-WeChat.prototype.message = function (req, res) {
-	// 微信输入信息都在req.weixin上
-	var message = req.weixin;
-	if (message.FromUserName === 'diaosi') {
-		// 回复屌丝(普通回复)
-		res.reply('hehe');
-	} else if (message.FromUserName === 'text') {
-		//你也可以这样回复text类型的信息
-		res.reply({
-			content: 'text object',
-			type: 'text'
-		});
-	} else if (message.FromUserName === 'hehe') {
-		// 回复一段音乐
-		res.reply({
-			type: "music",
-			content: {
-				title: "来段音乐吧",
-				description: "一无所有",
-				musicUrl: "http://mp3.com/xx.mp3",
-				hqMusicUrl: "http://mp3.com/xx.mp3",
-				thumbMediaId: "thisThumbMediaId"
-			}
-		});
-	} else {
-		// 回复高富帅(图文回复)
-		res.reply([{
-			title: '你来我家接我吧',
-			description: '这是女神与高富帅之间的对话',
-			picurl: 'http://nodeapi.cloudfoundry.com/qrcode.jpg',
-			url: 'http://nodeapi.cloudfoundry.com/'
-		}]);
-	}
-};
 
 //暴露可供外部访问的接口
-module.exports = WeChat;
+module.exports = WechatApp;
