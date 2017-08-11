@@ -12,6 +12,8 @@ var menu = require('./config/menu');
 var weixinConfig = require('./config/weixin');
 var redisUtil = require('./common/redisUtil');
 
+redisUtil.client().del('ticket');
+
 var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(callback) {
 	// 传入一个获取全局token的方法
 	redisUtil.client().get('accessToken', function(err, reply) {

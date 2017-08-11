@@ -19,7 +19,7 @@ exports.sign = function(url, callback) {
 						if (!error && response.statusCode == 200) {
 							var ticketMap = JSON.parse(json);
 							redisUtil.client().setex('ticket', config.cache_duration, ticketMap.ticket); //加入缓存
-							console.log('jsapi_ticket=' + ticketMap.ticket + '&noncestr=' + noncestr + '×tamp=' + timestamp + '&url=' + url);
+							console.log('加入缓存： jsapi_ticket=' + ticketMap.ticket + '&noncestr=' + noncestr + '×tamp=' + timestamp + '&url=' + url);
 							callback({
 								noncestr: noncestr,
 								timestamp: timestamp,
@@ -33,7 +33,7 @@ exports.sign = function(url, callback) {
 			});
 		} else {
 			jsapi_ticket = reply;
-			console.log('1' + 'jsapi_ticket=' + jsapi_ticket + '&noncestr=' + noncestr + '×tamp=' + timestamp + '&url=' + url);
+			console.log('获取缓存：' + 'jsapi_ticket=' + jsapi_ticket + '&noncestr=' + noncestr + '&timestamp=' + timestamp + '&url=' + url);
 			callback({
 				noncestr: noncestr,
 				timestamp: timestamp,
