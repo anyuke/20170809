@@ -44,7 +44,7 @@ function wechatText(message, req, res, next) {
 	}
 }
 
-WeChat.prototype.auth = function(req, res, next) {
+WeChat.prototype.auth = function(req, res) {
 	console.log('-----------------step 2');
 	var verifyInfo = { //验证信息
 		token: this.token,
