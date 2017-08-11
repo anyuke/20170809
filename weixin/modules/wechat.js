@@ -45,7 +45,7 @@ function wechatText(message, req, res, next) {
 	}
 }
 
-WechatApp.prototype.auth = function(req, res) {
+WechatApp.prototype.auth = function() {
 	var verifyInfo = { //验证信息
 		token: this.token,
 		appid: this.config.appid
