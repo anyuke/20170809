@@ -1,15 +1,9 @@
-'use strict'
-
 var wechat = require('wechat');
-var sha1 = require('sha1');
 
 //构建 WeChat 对象 即 js中 函数就是对象
 var WechatApp = function(config) {
 	//设置 WeChat 对象属性 config
 	this.config = config;
-
-	//设置 WeChat 对象属性 token
-	this.token = config.token;
 };
 
 function wechatText(message, req, res, next) {
@@ -45,15 +39,12 @@ function wechatText(message, req, res, next) {
 	}
 }
 
-WechatApp.prototype.auth = function() {
-	var verifyInfo = { //验证信息
-		token: this.token,
+WechatApp.prototype.auth = function(req, res) {
+	var config = {
+		token: this.config.toekn,
 		appid: this.config.appid
 	};
-	console.log('verifyInfo:\n', verifyInfo);
-	wechat(verifyInfo, wechat.text(wechatText));
+	wechat(config, wechat.text(wechatText));
 };
 
-
-//暴露可供外部访问的接口
 module.exports = WechatApp;
