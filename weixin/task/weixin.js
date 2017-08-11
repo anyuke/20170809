@@ -11,10 +11,12 @@ exports.refresh= function () {
                 return;
             }
             var accessToken = JSON.parse(body).access_token;
+            console.log('accessToken:', accessToken);
             if (accessToken) {
                 redisUtil.client().setex(weixinConfig.weixinAccessTokenPrefix, weixinConfig.weixinExpireTime, accessToken);
                 request.post('https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi', {form: {access_token: accessToken, type: 'jsapi'}}, function (err, rsp, body) {
                     var ticket = JSON.parse(body).ticket;
+                    console.log('ticket:', ticket);
                     if (ticket) {
                         redisUtil.client().setex(weixinConfig.weixinTicketPrefix, weixinConfig.weixinExpireTime, ticket);
                     }
@@ -24,7 +26,7 @@ exports.refresh= function () {
     };
 
     mission();
-    
+
     console.info('自动刷新微信JSAPI、ACCESS_TOKEN票据,间隔时间1小时');
     var rule = new schedule.RecurrenceRule();
     rule.minute = 0;
