@@ -3,5 +3,6 @@ module.exports = {
 	port: 6379,
 	opts: {
         auth_pass: 'anyuke'
-    }
+    },
+    db: 4
 };

@@ -45,6 +45,7 @@ router.get('/callback', function(req, res) {
 	client.getAccessToken(code, function(err, result) {
 		var accessToken = result.data.access_token;
 		var openid = result.data.openid;
+		req.session.openid = openid;
 		client.getUser(openid, function(err, result) {
 			var userInfo = result;
 			user.add(userInfo, function(err, results) {
@@ -58,17 +59,12 @@ router.get('/callback', function(req, res) {
 });
 
 router.get('/home', function(req, res, next) {
-	redisUtil.client().get(weixinConfig.weixinAccessTokenPrefix, function(err, reply) {
-		if (err) {
-			console.error(err);
-		}
-		if (!reply) {
-			console.error("redis 找不到 accessToken");
-		}
-		res.render('index', {
-			title: 'welcome home ',
-			token: reply
-		});
+	if (!req.session.openid) {
+		return res.redirect('/OAuth');
+	}
+	res.render('index', {
+		title: 'welcome home ',
+		token: req.session.openid
 	});
 });
 

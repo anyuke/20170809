@@ -9,6 +9,7 @@ var users = require('./routes/users');
 var WechatAPI = require('wechat-api');
 var menu = require('./config/menu');
 var weixinConfig = require('./config/weixin');
+var redisConfig = require('./config/redis');
 var redisUtil = require('./common/redisUtil');
 var request = require('request');
 var task = require('./task/weixin');
@@ -69,6 +70,77 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// session
+var session = null;
+session = require('express-session');
+
+var RedisStore = require('connect-redis')(session);
+
+var REDIS_OPT = {};
+REDIS_OPT.host = redisConfig.host;
+REDIS_OPT.port = redisConfig.port;
+REDIS_OPT.db = redisConfig.db;
+
+if (redisConfig.opts && redisConfig.opts.auth_pass) {
+    REDIS_OPT.password = redisConfig.opts.auth_pass;
+}
+
+var store = new RedisStore(REDIS_OPT);
+
+app.locals.store = store;
+
+app.use(session({
+    name: 'weixin_session',
+    secret: 'lyf2017811', // 建议使用 128 个字符的随机字符串
+    cookie: {
+        path: '/',
+        httpOnly: true,
+        maxAge: 7000000
+    },
+    resave: false,
+    saveUninitialized: true,
+    store: store,
+}));
+
+app.get("/api/setsession", function(req, res) {
+    req.session.openid = '';
+    req.session.nickname = '';
+    res.json({
+        status: 100,
+        msg: 'success'
+    });
+    return;
+});
+
+app.get("/api/getsession", function(req, res) {
+
+    if (!req.session || !req.session.id) {
+        res.json({
+            status: 1,
+            msg: "session id not found !"
+        });
+        return;
+    }
+
+    app.locals.store.get(req.session.id, function(err, session) {
+        if (err) {
+            res.json({
+                status: 1,
+                sessionid: req.session.id,
+                msg: err.message
+            });
+            return;
+        }
+        res.json({
+            status: 100,
+            msg: "操作成功",
+            sessionid: req.session.id,
+            session: session
+        });
+        return;
+    });
+});
 
 app.use('/', index);
 app.use('/users', users);
