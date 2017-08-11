@@ -56,16 +56,10 @@ router.get('/callback', function(req, res) {
 						if (err) {
 							return res.send(404, err);
 						}
-						if (!req.session) {
-							req.session = {};
-						}
 						res.redirect('/wx/home/');
 					});
 				});
 			} else {
-				if (!req.session) {
-					req.session = {};
-				}
 				res.redirect('/wx/home/');
 			}
 		});

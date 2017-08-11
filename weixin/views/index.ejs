@@ -29,7 +29,7 @@ $(function(){
       type: 'get',
       dataType: 'json',
       data: {
-          url: window.location.href.split('#')[0]
+          url: encodeURIComponent(window.location.href.split('#')[0])
       },
       success: function(data){
          wx.config({
@@ -38,10 +38,40 @@ $(function(){
             timestamp: data.timestamp, // 必填，生成签名的时间戳
             nonceStr: data.noncestr, // 必填，生成签名的随机串
             signature: data.signature,// 必填，签名，见附录1
-            jsApiList: ['onMenuShareTimeline',
+            jsApiList: ['checkJsApi',
+                        'onMenuShareTimeline',
                         'onMenuShareAppMessage',
                         'onMenuShareQQ',
-                        'onMenuShareWeibo'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                        'onMenuShareWeibo',
+                        'hideMenuItems',
+                        'showMenuItems',
+                        'hideAllNonBaseMenuItem',
+                        'showAllNonBaseMenuItem',
+                        'translateVoice',
+                        'startRecord',
+                        'stopRecord',
+                        'onRecordEnd',
+                        'playVoice',
+                        'pauseVoice',
+                        'stopVoice',
+                        'uploadVoice',
+                        'downloadVoice',
+                        'chooseImage',
+                        'previewImage',
+                        'uploadImage',
+                        'downloadImage',
+                        'getNetworkType',
+                        'openLocation',
+                        'getLocation',
+                        'hideOptionMenu',
+                        'showOptionMenu',
+                        'closeWindow',
+                        'scanQRCode',
+                        'chooseWXPay',
+                        'openProductSpecificView',
+                        'addCard',
+                        'chooseCard',
+                        'openCard'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         });
         wx.ready(function () {
           var shareData = {
