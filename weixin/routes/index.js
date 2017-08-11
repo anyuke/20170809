@@ -28,9 +28,14 @@ var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(open
 		});
 	});
 
-/* 自动回复. */
-router.get('/', function(req, res) {
+/* 服务器认证. */
+router.get('/auth', function(req, res) {
 	wechatApp.auth(req, res);
+});
+
+/* 自动回复. */
+router.post('/auth', function(req, res) {
+	wechatApp.message(req, res);
 });
 
 // 主页,主要是负责OAuth认证
