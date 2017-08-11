@@ -22,6 +22,9 @@ exports.refresh= function () {
             }
         });
     };
+
+    mission();
+    
     console.info('自动刷新微信JSAPI、ACCESS_TOKEN票据,间隔时间1小时');
     var rule = new schedule.RecurrenceRule();
     rule.minute = 0;
