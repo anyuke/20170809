@@ -33,6 +33,14 @@ var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(cal
 	callback();
 });
 
+api.createMenu(menu.wx_menu, function(err, results) {
+	console.log('-------------创建菜单-------------');
+	if (err) {
+		next(err);
+	}
+	next();
+});
+
 // var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret);
 var app = express();
 
@@ -49,17 +57,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(function(req, res, next) {
-	console.log('==========进入程序=========');
-	next();
-	// api.createMenu(menu.wx_menu, function(err, results) {
-	// 	if (err) {
-	// 		next(err);
-	// 	}
-	// 	next();
-	// });
-});
 
 app.use('/', index);
 app.use('/users', users);
