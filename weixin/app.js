@@ -14,6 +14,7 @@ var redisUtil = require('./common/redisUtil');
 var request = require('request');
 var task = require('./task/weixin');
 
+console.log('开始删除缓存');
 redisUtil.client().del(weixinConfig.weixinAccessTokenPrefix);
 redisUtil.client().del(weixinConfig.weixinTicketPrefix);
 
