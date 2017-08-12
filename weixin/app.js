@@ -37,8 +37,9 @@ var api = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(cal
 	token = JSON.parse(token);
 	if (token.accessToken) {
 		redisUtil.client().setex(weixinConfig.weixinAccessTokenPrefix, weixinConfig.weixinExpireTime, token.accessToken);
-        request.post('https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi', {form: {access_token: accessToken, type: 'jsapi'}}, function (err, rsp, body) {
+        request.post('https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi', {form: {access_token: token.accessToken, type: 'jsapi'}}, function (err, rsp, body) {
             var ticket = JSON.parse(body).ticket;
+            console.log('缓存全局ticket', ticket);
             if (ticket) {
                 redisUtil.client().setex(weixinConfig.weixinTicketPrefix, weixinConfig.weixinExpireTime, ticket);
             }
