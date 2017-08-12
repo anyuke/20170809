@@ -3,7 +3,7 @@ module.exports = {
 		"button": [{
 			"type": "view",
 			"name": "首页",
-			"url": "http://www.lyf-free.com/wx/OAuth"
+			"url": "http://www.lyf-free.com/wx/home"
 		}, {
 			"name": "菜单2",
 			"sub_button": [{

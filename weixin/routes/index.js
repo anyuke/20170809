@@ -48,6 +48,7 @@ router.get('/callback', function(req, res) {
 		req.session.openid = openid;
 		client.getUser(openid, function(err, result) {
 			var userInfo = result;
+			req.session.nickname = userInfo.nickname;
 			user.add(userInfo, function(err, results) {
 				if (err) {
 					return res.send(404, err);
@@ -61,7 +62,7 @@ router.get('/callback', function(req, res) {
 router.get('/home', login_check, function(req, res, next) {
 	res.render('index', {
 		title: 'welcome home ',
-		token: req.session.openid
+		token: req.session.nickname
 	});
 });
 
