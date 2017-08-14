@@ -1,6 +1,0 @@
-[2017-08-14 15:39:24.785] [INFO] cheese - 自动刷新微信JSAPI、ACCESS_TOKEN票据,间隔时间1小时
-[2017-08-14 15:39:24.848] [INFO] cheese - 获取全局AccessToken:  aUwJBRcgFzb4T5OtjcWz9iRMnk6vfUExKazF1x-9L8XUD8JLSUz3WlURRqUrKhrndiqTMxjC8qptTj8NaJcLFc_sKtySQHYGBTXlBXm_nIECFEaY1MdTrLhW0hOdfVESNGJbAGAEXA
-[2017-08-14 15:39:25.036] [INFO] cheese - 缓存全局AccessToken { accessToken: 'JQoj0YqnaJFA6zazzULwHUOPOeMR0qSX-DAiIwOC6Ferozzdcal4jw4gUjFIsaJ3dPfKGMBxw2057Pv5KSL30y34yX4isz23-t3Q2IHewEGJcjgxaz6qN-i9zPWh6ayQLNMaABAZBA',
-  expireTime: 1502703555036 }
-[2017-08-14 15:39:25.299] [INFO] cheese - 缓存全局ticket kgt8ON7yVITDhtdwci0qeRcc8OCLyGk6QV3QcJMMd055MJ6VTNhFl8fuovpmAhfOidxZs5DioxkGPwcsiTAcig
-[2017-08-14 15:39:25.657] [INFO] cheese - -------------创建菜单-------------

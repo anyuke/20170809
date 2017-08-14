@@ -72,7 +72,7 @@ router.get('/sign', function(req, res, next) {
 	});
 });
 
-router.get('/home', login_check, function(req, res, next) {
+router.get('/home', function(req, res, next) {
 	res.render('home', {
 		title: '首页'
 	});
