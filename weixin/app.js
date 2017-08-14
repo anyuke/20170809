@@ -110,8 +110,8 @@ app.use(session({
     store: store,
 }));
 
-app.use('/wx', index);
-app.use('/wx/users', users);
+app.use('/wx/', index);
+app.use('/wx/users/', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
