@@ -1,0 +1,165 @@
+.container{
+	max-width: 1024;
+	width: 100%;
+	margin: 0 auto;
+}
+html{
+	background-color: #fff;
+}
+.login-wrap{
+	text-align: center;
+	width: 500px;
+	margin: 100px auto;
+	padding: 60px 30px;
+	background-color: rgba(0,0,0,0.2);
+	border-radius: 5px;
+}
+.control:not(:last-child) {
+    margin-bottom: 20px;
+}
+.admin-wrap{
+	padding: 20px;
+}
+.header-actions{
+	margin: 10px 0;
+}
+.handle-btn{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.table tbody tr td{
+	padding: 5px 0;
+}
+.table tr th, .table tr td{
+	text-align: center;
+  overflow: hidden;
+  max-width: 400px;
+}
+.table tr th.col-choose, .table tr td.col-choose{
+  min-width: 10px;
+}
+.table tr th.col-id, .table tr td.col-id{
+  min-width: 10px;
+}
+.table tr th.col-title, .table tr td.col-title{
+  min-width: 50px;
+}
+.table tr th.col-summary, .table tr td.col-summary{
+  min-width: 80px;
+}
+.table tr th.col-applink, .table tr td.col-applink{
+  min-width: 50px;
+}
+.table tr th.col-piclink, .table tr td.col-piclink{
+  min-width: 50px;
+}
+.table tr th.col-ordernumber, .table tr td.col-ordernumber{
+  min-width: 30px;
+}
+.table tr th.col-time, .table tr td.col-time{
+  min-width: 150px;
+}
+.table tr th.col-edit, .table tr td.col-edit{
+  min-width: 100px;
+}
+.tap-content{
+	background-color: #fff;
+}
+.form-wrap{
+	padding: 30px;
+}
+.form-wrap h2{
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.form-wrap .wrap-action{
+	text-align: center;
+}
+.form-wrap .wrap-action .button{
+	padding-left: 40px;
+	padding-right: 40px;
+}
+th.order-item.active{
+	color: #666;
+}
+.arrow {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  opacity: 0.66;
+}
+.arrow.asc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid #aeb1b5;
+}
+.arrow.desc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #aeb1b5;
+}
+th.order-item.active .arrow.desc{
+	border-top: 4px solid #666;
+}
+th.order-item.active .arrow.asc{
+	border-bottom: 4px solid #666;
+}
+.order-item{
+	cursor: pointer;
+}
+.pagination a{
+	margin: 0 5px;
+}
+.col-header{
+	text-align: center;
+}
+.radio{
+	line-height: 30px;
+	margin-right: 10px;
+}
+.edit-wrap .columns{
+	margin-left: 100px;
+}
+.page-input{
+    display: inline-block;
+    width: 50px;
+    margin: 0 10px;
+    text-align: center;
+}
+.my-pagination {
+    text-align: center;
+}
+.my-pagination a {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    background: #fff;
+    border: 1px solid #d3d6db;
+    border-radius: 3px;
+    color: #222324;
+    display: inline-block;
+    font-size: 14px;
+    height: 32px;
+    line-height: 24px;
+    padding: 3px 8px;
+    position: relative;
+    padding: 3px 10px;
+    text-align: center;
+    white-space: nowrap;
+    margin: 0 5px;
+}
+
+.my-pagination a:hover{
+    border: 1px solid #999;
+    color: #333;
+}
+.my-pagination a.is-active{
+    background-color: #1fc8db;
+    border-color: transparent;
+    color: #fff;
+}

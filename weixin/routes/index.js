@@ -10,6 +10,7 @@ var sign = require('../common/signature').sign;
 
 var OAuth = require('wechat-oauth');
 var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(openid, callback) {
+	logger.info('网页授权 获取用户信息');
 	var sql = 'SELECT * FROM token WHERE openid = ?';
 	mysqlUtil.execute(sql, [openid], function(err, result) {
 		if (err) {
@@ -19,6 +20,7 @@ var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(open
 	});
 },
 function(openid, token, callback) {
+	logger.info('网页授权 缓存token');
 	var sql = 'REPLACE INTO token(access_token, expires_in, refresh_token, openid, scope, create_at) VALUES(?, ?, ?, ?, ?, ?)';
 	var fields = [token.access_token, token.expires_in, token.refresh_token, token.openid, token.scope, token.create_at];
 	mysqlUtil.execute(sql, fields, function(err, result) {
@@ -33,7 +35,7 @@ router.all('/auth', wechatApp.auth);
 router.get('/OAuth', function(req, res) {
 	// 生成引导用户点击的URL
 	var url = client.getAuthorizeURL('http://' + req.hostname + '/wx/callback', '', 'snsapi_userinfo');
-	res.redirect(url);
+	return res.redirect(url);
 });
 
 /**
@@ -43,6 +45,9 @@ router.get('/callback', function(req, res) {
 	var code = req.query.code;
 	// 用户点击上步生成的URL后会被重定向到上步设置的 redirectUrl，并且会带有code参数，我们可以使用这个code换取access_token和用户的openid
 	client.getAccessToken(code, function(err, result) {
+		if (err) {
+			return console.eror('oauth error: ', err);
+		}
 		var accessToken = result.data.access_token;
 		var openid = result.data.openid;
 		req.session.openid = openid;
@@ -53,27 +58,36 @@ router.get('/callback', function(req, res) {
 				if (err) {
 					return res.send(404, err);
 				}
-				res.redirect('/wx/home/');
+				return res.redirect('/wx/home/');
 			});
 		});
-	});
-});
-
-router.get('/home', login_check, function(req, res, next) {
-	res.render('index', {
-		title: 'welcome home ',
-		token: req.session.nickname
 	});
 });
 
 router.get('/sign', function(req, res, next) {
 	var url = req.query.url;
 	sign(url, function(results) {
-		console.log('results:', results);
 		results.appId = weixinConfig.appid;
 		res.json(results);
-		return;
 	});
 });
+
+router.get('/home', login_check, function(req, res, next) {
+	res.render('home', {
+		title: '首页'
+	});
+});
+
+// router.get('/login', function(req, res, next) {
+// 	res.render('login', {title: "登录页"});
+// });
+
+// router.post('/login', function (req, res, next) {
+// 	console.log('post login');
+// 	res.json({
+// 		code: 1,
+// 		message: "success"
+// 	});
+// });
 
 module.exports = router;

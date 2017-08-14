@@ -3,7 +3,7 @@ var weixinConfig = require('../config/weixin.js');
 
 //构建 WeChat 对象 即 js中 函数就是对象
 var WechatApp = {
-	auth: wechat(weixinConfig, wechat.text(wechatText))
+	auth: wechat(weixinConfig, wechat.text(wechatText).event(wechatEvent))
 };
 
 function wechatText(message, req, res, next) {
@@ -35,6 +35,23 @@ function wechatText(message, req, res, next) {
 		}]);
 	} else {
 		res.reply('(¬_¬)ﾉ 听不懂啦');
+	}
+}
+
+function wechatEvent(message, req, res, next) {
+	var input = (message.Event || '').trim();
+
+	if (/subscribe/.test(input)) {
+		res.reply('关注事件');
+	} else if (/unsubscribe/.test(input)) {
+		res.reply({
+			content: '取消订阅事件~',
+			type: 'text'
+		});
+	} else if (/CLICK/.test(input)) {
+		res.reply('点击自定义菜单事件');
+	} else {
+		res.reply('某种推送');
 	}
 }
 

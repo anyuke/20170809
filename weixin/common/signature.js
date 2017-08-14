@@ -8,9 +8,8 @@ exports.sign = function(url, callback) {
 	var timestamp = Math.floor(Date.now() / 1000); //精确到秒
 	redisUtil.client().get(weixinConfig.weixinTicketPrefix, function(err, reply) {
 		if (err) {
-			console.error(err);
+			return logger.error(err);
 		}
-		console.log('获取缓存：' + 'jsapi_ticket=' + reply + '&noncestr=' + noncestr + '&timestamp=' + timestamp + '&url=' + url);
 		callback({
 			noncestr: noncestr,
 			timestamp: timestamp,
