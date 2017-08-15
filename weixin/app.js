@@ -16,8 +16,8 @@ var ejs = require('ejs');  //我是新引入的ejs插件
 global.rootdir = __dirname;
 global.logger = require('./common/logger');
 
-var task = require('./task/weixin');
-task.refresh(); // 定时刷新toekn jsapi-ticket
+// var task = require('./task/weixin');
+// task.refresh(); // 定时刷新toekn jsapi-ticket
 
 
 global.wechatApi = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(callback) {
