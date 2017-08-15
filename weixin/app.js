@@ -6,56 +6,20 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
-var WechatAPI = require('wechat-api');
-var menu = require('./config/menu');
-var weixinConfig = require('./config/weixin');
-var redisConfig = require('./config/redis');
-var redisUtil = require('./common/redisUtil');
-var request = require('request');
 var ejs = require('ejs');  //我是新引入的ejs插件
+
+var redisConfig = require('./config/redis');
+var menu = require('./config/menu').wx_menu;
 global.rootdir = __dirname;
 global.logger = require('./common/logger');
+global.wechatApi = require('./modules/wechatApi');
 
 // var task = require('./task/weixin');
-// task.refresh(); // 定时刷新toekn jsapi-ticket
+// task.refresh(); // 定时刷新toekn jsapi-ticket // 因为wechat-api组件会自动刷新toekn，所以暂时屏蔽掉这个定时器
 
 
-global.wechatApi = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(callback) {
-	// 传入一个获取全局token的方法
-	redisUtil.client().get(weixinConfig.weixinAccessTokenPrefix, function(err, reply) {
-		logger.info('获取全局AccessToken: ', reply);
-		if (err) {
-			return logger.error(err);
-		}
-		callback(null, reply);
-	});
-}, function(token, callback) {
-	// 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
-	// 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
-	logger.info('缓存全局AccessToken', token);
-	if (token.accessToken) {
-		redisUtil.client().setex(weixinConfig.weixinAccessTokenPrefix, weixinConfig.weixinExpireTime, token.accessToken);
-        request.post('https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi', {form: {access_token: token.accessToken, type: 'jsapi'}}, function (err, rsp, body) {
-            if (err) {
-                logger.error(err);
-                return;
-            }
-            if(JSON.parse(body).errcode){
-                logger.error("weixin api getticket error : %s", JSON.parse(body).errmsg);
-                return;
-            }
-            var ticket = JSON.parse(body).ticket;
-            logger.info('缓存全局ticket', ticket);
-            if (ticket) {
-                redisUtil.client().setex(weixinConfig.weixinTicketPrefix, weixinConfig.weixinExpireTime, ticket);
-            }
-        });
-    }
-	callback();
-});
-
-wechatApi.createMenu(menu.wx_menu, function(err, results) {
-	logger.info('-------------创建菜单-------------');
+// 创建菜单
+wechatApi.createMenu(menu, function (err, result) {
 	if (err) {
 		return logger.error(err);
 	}
@@ -103,10 +67,10 @@ app.use(session({
     cookie: {
         path: '/',
         httpOnly: true,
-        maxAge: 7000000
+        maxAge: 24 * 60 * 60 * 1000 // 24小时后过期
     },
-    resave: false,
-    saveUninitialized: true,
+    resave: true,
+    saveUninitialized: false,
     store: store,
 }));
 

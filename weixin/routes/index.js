@@ -3,30 +3,30 @@ var router = express.Router();
 var weixinConfig = require('../config/weixin.js');
 var wechatApp = require('../modules/wechat');
 var mysqlUtil = require('../common/mysqlUtil.js');
-var redisUtil = require('../common/redisUtil');
 var login_check = require('../common/login_check');
 var user = require('../modules/user');
 var sign = require('../common/signature').sign;
 
 var OAuth = require('wechat-oauth');
+
 var client = new OAuth(weixinConfig.appid, weixinConfig.appsecret, function(openid, callback) {
-	logger.info('网页授权 获取用户信息');
-	var sql = 'SELECT * FROM token WHERE openid = ?';
-	mysqlUtil.execute(sql, [openid], function(err, result) {
-		if (err) {
+		logger.info('网页授权 获取用户信息');
+		var sql = 'SELECT * FROM token WHERE openid = ?';
+		mysqlUtil.execute(sql, [openid], function(err, result) {
+			if (err) {
+				return callback(err);
+			}
+			return callback(null, result[0]);
+		});
+	},
+	function(openid, token, callback) {
+		logger.info('网页授权 缓存token');
+		var sql = 'REPLACE INTO token(access_token, expires_in, refresh_token, openid, scope, create_at) VALUES(?, ?, ?, ?, ?, ?)';
+		var fields = [token.access_token, token.expires_in, token.refresh_token, token.openid, token.scope, token.create_at];
+		mysqlUtil.execute(sql, fields, function(err, result) {
 			return callback(err);
-		}
-		return callback(null, result[0]);
+		});
 	});
-},
-function(openid, token, callback) {
-	logger.info('网页授权 缓存token');
-	var sql = 'REPLACE INTO token(access_token, expires_in, refresh_token, openid, scope, create_at) VALUES(?, ?, ?, ?, ?, ?)';
-	var fields = [token.access_token, token.expires_in, token.refresh_token, token.openid, token.scope, token.create_at];
-	mysqlUtil.execute(sql, fields, function(err, result) {
-		return callback(err);
-	});
-});
 
 /* 服务器认证和自动消息回复. */
 router.all('/auth', wechatApp.auth);
@@ -78,6 +78,34 @@ router.get('/home', login_check, function(req, res, next) {
 	});
 });
 
+router.get('/order', function(req, res, next) {
+	var data = {
+		"appid": "wwwwb4f85f3a797777",
+		"openid": "oGHT7vrbHrmPMeZx4ejL5qnVTOTs",
+		"transid": "111112222233333",
+		"out_trade_no": "555666uuu",
+		"deliver_timestamp": "1369745073",
+		"deliver_status": "1",
+		"deliver_msg": "ok",
+		"app_signature": "53cca9d47b883bd4a5c85a9300df3da0cb48565c",
+		"sign_method": "sha1"
+	};
+	wechatApi.deliverNotify(data, function(err, results) {
+		if (err) {
+			logger.error(err);
+			res.json({
+				code: -1,
+				message: err
+			});
+			return;
+		}
+		res.json({
+			code: 200,
+			message: results
+		});
+		return;
+	});
+});
 // router.get('/login', function(req, res, next) {
 // 	res.render('login', {title: "登录页"});
 // });

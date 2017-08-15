@@ -4,7 +4,7 @@ var filePath = rootdir + '/logs';
 
 log4js.configure({
 	appenders: {
-		cheese: {
+		ANYUKE_LOGGER: {
 			type: 'dateFile',
 			filename: filePath,
 			pattern: '/yyyyMMdd.txt',
@@ -15,12 +15,12 @@ log4js.configure({
 	},
 	categories: {
 		default: {
-			appenders: ['cheese'],
+			appenders: ['ANYUKE_LOGGER'],
 			level: 'info'
 		}
 	}
 });
 
-var logger = log4js.getLogger('cheese');
+var logger = log4js.getLogger('ANYUKE_LOGGER');
 
 module.exports = logger;
