@@ -3,12 +3,17 @@ var weixinConfig = require('../config/weixin');
 var redisUtil = require('../common/redisUtil');
 var request = require('request');
 
+// redisUtil.client().del(weixinConfig.weixinAccessTokenPrefix);
+// redisUtil.client().del(weixinConfig.weixinTicketPrefix);
+
 var wechatApi = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, function(callback) {
 	// 传入一个获取全局token的方法
 	redisUtil.client().get(weixinConfig.weixinAccessTokenPrefix, function(err, reply) {
 		logger.info('获取全局token: ', JSON.parse(reply));
 		if (err) {
-			return logger.error(err);
+			emailLogger.error(err);
+			logger.error(err);
+			return;
 		}
 		callback(null, JSON.parse(reply));
 	});
@@ -25,6 +30,7 @@ var wechatApi = new WechatAPI(weixinConfig.appid, weixinConfig.appsecret, functi
 			}
 		}, function(err, rsp, body) {
 			if (err) {
+				emailLogger.error(err);
 				logger.error(err);
 				return;
 			}

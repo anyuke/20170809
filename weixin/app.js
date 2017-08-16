@@ -7,21 +7,23 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var ejs = require('ejs');  //我是新引入的ejs插件
-
+var common = require('./modules/common');
 var redisConfig = require('./config/redis');
 var menu = require('./config/menu').wx_menu;
 global.rootdir = __dirname;
-global.logger = require('./common/logger');
+global.logger = require('./common/logger').logger;
+global.emailLogger = require('./common/logger').emailLogger;
 global.wechatApi = require('./modules/wechatApi');
 
 // var task = require('./task/weixin');
 // task.refresh(); // 定时刷新toekn jsapi-ticket // 因为wechat-api组件会自动刷新toekn，所以暂时屏蔽掉这个定时器
 
-
 // 创建菜单
 wechatApi.createMenu(menu, function (err, result) {
 	if (err) {
-		return logger.error(err);
+		emailLogger.error(err);
+		logger.error(err);
+		return;
 	}
 });
 
@@ -74,6 +76,7 @@ app.use(session({
     store: store,
 }));
 
+app.use('*', common.writeLog);
 app.use('/', index);
 app.use('/users', users);
 

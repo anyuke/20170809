@@ -1,220 +1,283 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>WeUI</title>
-    <link rel="stylesheet" href="/stylesheets/weui.css">
+<html>
+
+<head lang='zh-cmn'>
+    <meta charset='utf-8'>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'>
+    <meta content='portrait' name='x5-orientation'>
+    <meta content='true' name='x5-fullscreen'>
+    <meta content='portrait' name='screen-orientation'>
+    <meta content='yes' name='full-screen'>
+    <meta content='webkit' name='renderer'>
+    <meta property="wb:webmaster" content="29a506845615ac30">
+    <meta content='IE=Edge' http-equiv='X-UA-Compatible'>
+    <meta content='no-siteapp' http-equiv='Cache-Control'>
+    <title>微信读书演示_dowebok</title>
+    <link href='/stylesheets/index.css' rel='stylesheet'>
+    <link href='/stylesheets/index-mobile.css' id='mobileStyle' rel='stylesheet'>
+    <!--[if gte IE 6]>
+        <link rel="stylesheet" href="css/index-IE.css" />
+    <![endif]-->
 </head>
-<body ontouchstart>
-    <!-- Your Code -->
-    <div class="weui-search-bar" id="search_bar">
-	    <form class="weui-search-bar__form">
-	        <div class="weui-search-bar__box">
-	            <i class="weui-icon-search"></i>
-	            <input type="search" class="weui-search-bar__input" id="search_input" placeholder="搜索" />
-	            <a href="javascript:" class="weui-icon-clear" id="search_clear"></a>
-	        </div>
-	        <label for="search_input" class="weui-search-bar__label" id="search_text">
-	            <i class="weui-icon-search"></i>
-	            <span>搜索</span>
-	        </label>
-	    </form>
-		<a href="javascript:" class="weui-search-bar__cancel-btn" id="search_cancel">取消</a>
-	</div>
-	<div class="weui-cells__title">单选列表项</div>
-<div class="weui-cells weui-cells_radio">
-    <label class="weui-cell weui-check__label" for="x11">
-        <div class="weui-cell__bd">
-            <p>cell standard</p>
-        </div>
-        <div class="weui-cell__ft">
-            <input type="radio" class="weui-check" name="radio1" id="x11">
-            <span class="weui-icon-checked"></span>
-        </div>
-    </label>
-    <label class="weui-cell weui-check__label" for="x12">
 
-        <div class="weui-cell__bd">
-            <p>cell standard</p>
+<body scroll="no">
+    <div id='view'>
+        <div id='background'></div>
+        <div id='page'>
+            <div class='page' id='page_download'>
+                <div class='img' id='page_download_hand'></div>
+                <div id='page_download_show'>
+                    <div id='page_download_show_top'>
+                        <div id='page_download_text'> 微信读书
+                            <div>让阅读不再孤独</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" id='page_download_button'>
+                    <div id='page_download_button_top'>
+                        <div id='page_download_mobile_iPhone'></div>
+                        <div id='page_download_mobile_android'></div>
+                    </div>
+                </a>
+                <div id="page_download_pc_button">
+                    <a href="https://i.weread.qq.com/download?from=Website&type=iOS" id="page_download_button_iPhone">
+                        <div id="page_download_pc_iPhone"></div>
+                    </a>
+                    <a href="https://i.weread.qq.com/download?from=Website&type=Android" id="page_download_button_android">
+                        <div id="page_download_pc_android"></div>
+                    </a>
+                </div>
+            </div>
+            <div class='page' id='page_function1'>
+                <div id='page_function1_text'>
+                    <h1 id='page_function1_text_title'>精心打磨的阅读体验</h1>
+                    <h2 id='page_function1_text_sub'>支持EPUB和TXT格式，随心个性化专属阅读风格。精心打磨，只为给你极致体验。</h2>
+                </div>
+                <div id='page_function1_show'>
+                    <div id='page_function1_show_top'>
+                        <div id='page_function1_book'>
+                            <div id='page_function1_book_page3'></div>
+                            <div id='page_function1_book_page2'></div>
+                            <div id='page_function1_book_page1'></div>
+                        </div>
+                        <div id='page_function1_skin'>
+                            <div id='page_function1_skin_icon'></div>
+                            <div id='page_function1_skin_block1'></div>
+                            <div id='page_function1_skin_block2'></div>
+                            <div id='page_function1_skin_block3'></div>
+                            <div id='page_function1_skin_block4'></div>
+                        </div>
+                        <div id='page_function1_font'></div>
+                    </div>
+                </div>
+            </div>
+            <div class='page' id='page_function2'>
+                <div id='page_function2_text'>
+                    <h1 id='page_function2_text_title'>和好友发现优质好书</h1>
+                    <h2 id='page_function2_text_sub'>书海茫茫，不妨让微信好友来帮你完成筛选，发现下一本适合你的好书。</h2>
+                </div>
+                <div id='page_function2_show'>
+                    <div id='page_function2_show_top'>
+                        <div id='page_function2_face'>
+                            <div id='page_function2_face_left'></div>
+                            <div id='page_function2_face_right'></div>
+                            <div id='page_function2_face_main'></div>
+                            <div id='page_function2_face_text'></div>
+                        </div>
+                        <div id='page_function2_book'>
+                            <div id='page_function2_book_07'></div>
+                            <div id='page_function2_book_06'></div>
+                            <div id='page_function2_book_05'></div>
+                            <div id='page_function2_book_04'></div>
+                            <div id='page_function2_book_03'></div>
+                            <div id='page_function2_book_02'></div>
+                            <div id='page_function2_book_01'></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='page' id='page_function3'>
+                <div id='page_function3_text'>
+                    <h1 id='page_function3_text_title'>和好友交流阅读感想</h1>
+                    <h2 id='page_function3_text_sub'>在阅读中与好友的想法邂逅，跟好友交流你的阅读感想，碰撞出更多火花。</h2>
+                </div>
+                <div id='page_function3_show'>
+                    <div id='page_function3_show_top'>
+                        <div id='page_function3_talk'>
+                            <div id='page_function3_talk_01'></div>
+                            <div id='page_function3_talk_02'></div>
+                            <div id='page_function3_talk_03'></div>
+                            <div id='page_function3_talk_04'></div>
+                            <div id='page_function3_talk_05'></div>
+                            <div id='page_function3_talk_06'></div>
+                            <div id='page_function3_book'></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='page' id='page_function4'>
+                <div id='page_function4_text'>
+                    <h1 id='page_function4_text_title'>和好友比拼读书排行</h1>
+                    <h2 id='page_function4_text_sub'>严肃的阅读游戏，在阅读中不仅收获知识，更收获与好友比拼的成就感。</h2>
+                </div>
+                <div id='page_function4_table'>
+                    <div id='page_function4_table_top'>
+                        <div id='page_function4_table_background'></div>
+                        <div id='page_function4_table_face_01'></div>
+                        <div id='page_function4_table_face_02'></div>
+                        <div id='page_function4_table_face_03'></div>
+                        <div id='page_function4_table_face_04'></div>
+                        <div id='page_function4_table_face_05'></div>
+                        <div id='page_function4_table_column_01'></div>
+                        <div id='page_function4_table_column_02'></div>
+                        <div id='page_function4_table_column_03'></div>
+                        <div id='page_function4_table_column_04'></div>
+                        <div id='page_function4_table_column_05'></div>
+                        <div id='page_function4_table_time_01'></div>
+                        <div id='page_function4_table_time_02'></div>
+                        <div id='page_function4_table_time_03'></div>
+                        <div id='page_function4_table_time_04'></div>
+                        <div id='page_function4_table_time_05'></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="weui-cell__ft">
-            <input type="radio" name="radio1" class="weui-check" id="x12" checked="checked">
-            <span class="weui-icon-checked"></span>
-        </div>
-    </label>
-    <a href="javascript:void(0);" class="weui-cell weui-cell_link">
-        <div class="weui-cell__bd">添加更多</div>
-    </a>
-</div>
-<div class="weui-cells__title">复选列表项</div>
-<div class="weui-cells weui-cells_checkbox">
-    <label class="weui-cell weui-check__label" for="s11">
-        <div class="weui-cell__hd">
-            <input type="checkbox" class="weui-check" name="checkbox1" id="s11" checked="checked">
-            <i class="weui-icon-checked"></i>
-        </div>
-        <div class="weui-cell__bd">
-            <p>standard is dealt for u.</p>
-        </div>
-    </label>
-    <label class="weui-cell weui-check__label" for="s12">
-        <div class="weui-cell__hd">
-            <input type="checkbox" name="checkbox1" class="weui-check" id="s12">
-            <i class="weui-icon-checked"></i>
-        </div>
-        <div class="weui-cell__bd">
-            <p>standard is dealicient for u.</p>
-        </div>
-    </label>
-    <a href="javascript:void(0);" class="weui-cell weui-cell_link">
-        <div class="weui-cell__bd">添加更多</div>
-    </a>
-</div>
-
-<div class="weui-cells__title">表单</div>
-<div class="weui-cells weui-cells_form">
-    <div class="weui-cell">
-        <div class="weui-cell__hd"><label class="weui-label">qq</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入qq号"/>
-        </div>
-    </div>
-    <div class="weui-cell weui-cell_vcode">
-        <div class="weui-cell__hd">
-            <label class="weui-label">手机号</label>
-        </div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="tel" placeholder="请输入手机号">
-        </div>
-        <div class="weui-cell__ft">
-            <a href="javascript:;" class="weui-vcode-btn">获取验证码</a>
-        </div>
-    </div>
-    <div class="weui-cell">
-        <div class="weui-cell__hd"><label for="" class="weui-label">日期</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="date" value=""/>
-        </div>
-    </div>
-    <div class="weui-cell">
-        <div class="weui-cell__hd"><label for="" class="weui-label">时间</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="datetime-local" value="" placeholder=""/>
-        </div>
-    </div>
-    <div class="weui-cell weui-cell_vcode">
-        <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="number" placeholder="请输入验证码"/>
-        </div>
-        <div class="weui-cell__ft">
-            <img class="weui-vcode-img" src="./images/vcode.jpg" />
-        </div>
-    </div>
-</div>
-<div class="weui-cells__tips">底部说明文字底部说明文字</div>
-
-<div class="weui-cells__title">表单报错</div>
-<div class="weui-cells weui-cells_form">
-    <div class="weui-cell weui-cell_warn">
-        <div class="weui-cell__hd"><label for="" class="weui-label">卡号</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="number" pattern="[0-9]*" value="weui input error" placeholder="请输入卡号"/>
-        </div>
-        <div class="weui-cell__ft">
-            <i class="weui-icon-warn"></i>
-        </div>
-    </div>
-</div>
-
-
-<div class="weui-cells__title">开关</div>
-<div class="weui-cells weui-cells_form">
-    <div class="weui-cell weui-cell_switch">
-        <div class="weui-cell__bd">标题文字</div>
-        <div class="weui-cell__ft">
-            <input class="weui-switch" type="checkbox"/>
-        </div>
-    </div>
-</div>
-
-<div class="weui-cells__title">文本框</div>
-<div class="weui-cells">
-    <div class="weui-cell">
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="text" placeholder="请输入文本"/>
-        </div>
-    </div>
-</div>
-
-<div class="weui-cells__title">文本域</div>
-<div class="weui-cells weui-cells_form">
-    <div class="weui-cell">
-        <div class="weui-cell__bd">
-            <textarea class="weui-textarea" placeholder="请输入文本" rows="3"></textarea>
-            <div class="weui-textarea-counter"><span>0</span>/200</div>
-        </div>
-    </div>
-</div>
-
-<div class="weui-cells__title">选择</div>
-<div class="weui-cells">
-
-    <div class="weui-cell weui-cell_select weui-cell_select-before">
-        <div class="weui-cell__hd">
-            <select class="weui-select" name="select2">
-                <option value="1">+86</option>
-                <option value="2">+80</option>
-                <option value="3">+84</option>
-                <option value="4">+87</option>
-            </select>
-        </div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入号码"/>
+        <div id='pageControl'>
+            <div class='pageControl' id='pageControl_button1'></div>
+            <div class='pageControl' id='pageControl_button2'></div>
+            <div class='pageControl' id='pageControl_button3'></div>
+            <div class='pageControl' id='pageControl_button4'></div>
+            <div class='pageControl' id='pageControl_button5'></div>
         </div>
     </div>
-</div>
-<div class="weui-cells__title">选择</div>
-<div class="weui-cells">
-    <div class="weui-cell weui-cell_select">
-        <div class="weui-cell__bd">
-            <select class="weui-select" name="select1">
-                <option selected="" value="1">微信号</option>
-                <option value="2">QQ号</option>
-                <option value="3">Email</option>
-            </select>
+    <div id='logo'></div>
+    <div id='arrow_right'>
+        <div id='arrow_right_height'></div>
+    </div>
+    <div id='arrow_left'>
+        <div id='arrow_left_height'></div>
+    </div>
+    <div class='animateArrowDown' id='arrow_down'></div>
+    <div id='nav'>
+        <a href='https://i.weread.qq.com/download?from=Website&type=iOS' id='nav_iPhone'>
+            <div id='nav_iPhone_img'></div>
+        </a>
+        <a href='https://i.weread.qq.com/download?from=Website&type=Android' id='nav_android'>
+            <div id='nav_android_img'></div>
+        </a>
+        <div id='nav_QRCode'>
+            <div id='nav_QRCode_img'></div>
+            <div id='nav_QRCode_hover'>
+                <div id='nav_QRCode_hover_border'>
+                    <div id='nav_QRCode_hover_img'></div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="weui-cell weui-cell_select weui-cell_select-after">
-        <div class="weui-cell__hd">
-            <label for="" class="weui-label">国家/地区</label>
-        </div>
-        <div class="weui-cell__bd">
-            <select class="weui-select" name="select2">
-                <option value="1">中国</option>
-                <option value="2">美国</option>
-                <option value="3">英国</option>
-            </select>
-        </div>
+    <div id='load'>
+        <div class='load' id='load_function'></div>
+        <div class='load' id='load_function1_page1'></div>
+        <div class='load' id='load_function1_page2'></div>
+        <div class='load' id='load_function2_book1'></div>
+        <div class='load' id='load_function2_book2'></div>
+        <div class='load' id='load_function2_book3'></div>
+        <div class='load' id='load_function2_book4'></div>
+        <div class='load' id='load_function2_book5'></div>
+        <div class='load' id='load_function2_book6'></div>
+        <div class='load' id='load_function2_book7'></div>
+        <div class='load' id='load_function3_book'></div>
+        <div class='load' id='load_function4_background'></div>
     </div>
-</div>
-
-<label for="weuiAgree" class="weui-agree">
-    <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox">
-    <span class="weui-agree__text">
-        阅读并同意<a href="javascript:void(0);">《相关条款》</a>
-    </span>
-</label>
-
-<div class="weui-btn-area">
-    <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定</a>
-</div>
-	<div class="weui-footer weui-footer_fixed-bottom">
-	    <p class="weui-footer__links">
-	        <a href="javascript:home();" class="weui-footer__link">WeUI首页</a>
-	    </p>
-	    <p class="weui-footer__text">Copyright &copy; 2008-2016 weui.io</p>
-	</div>
+    <script src='/javascripts/jquery.min.js'></script>
+    <script src='/javascripts/index.js'></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+    /*
+    * 注意：
+    * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+    * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+    * 3. 完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+    *
+    * 如有问题请通过以下渠道反馈：
+    * 邮箱地址：weixin-open@qq.com
+    * 邮件主题：【微信JS-SDK反馈】具体问题
+    * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
+    */
+    $(function(){
+      $.ajax({
+          url: '/wx/sign',
+          type: 'get',
+          dataType: 'json',
+          data: {
+              url: window.location.href.split('#')[0]
+          },
+          success: function(data){
+             wx.config({
+                debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: data.appId, // 必填，公众号的唯一标识
+                timestamp: data.timestamp, // 必填，生成签名的时间戳
+                nonceStr: data.noncestr, // 必填，生成签名的随机串
+                signature: data.signature,// 必填，签名，见附录1
+                jsApiList: ['checkJsApi',
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage',
+                            'onMenuShareQQ',
+                            'onMenuShareWeibo',
+                            'hideMenuItems',
+                            'showMenuItems',
+                            'hideAllNonBaseMenuItem',
+                            'showAllNonBaseMenuItem',
+                            'translateVoice',
+                            'startRecord',
+                            'stopRecord',
+                            'onRecordEnd',
+                            'playVoice',
+                            'pauseVoice',
+                            'stopVoice',
+                            'uploadVoice',
+                            'downloadVoice',
+                            'chooseImage',
+                            'previewImage',
+                            'uploadImage',
+                            'downloadImage',
+                            'getNetworkType',
+                            'openLocation',
+                            'getLocation',
+                            'hideOptionMenu',
+                            'showOptionMenu',
+                            'closeWindow',
+                            'scanQRCode',
+                            'chooseWXPay',
+                            'openProductSpecificView',
+                            'addCard',
+                            'chooseCard',
+                            'openCard'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+            wx.ready(function () {
+              var shareData = {
+                title: '互联网之子',
+                desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+                link: 'http://www.baidu.com',
+                imgUrl: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498406635878&di=36e59d72e9894981f251be02c84a7a41&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F1f178a82b9014a90e7eb9d17ac773912b21bee47.jpg',
+                success: function () {   
+                    // 用户确认分享后执行的回调函数  
+                    alert('分享成功');  
+                },  
+                cancel: function () {   
+                    // 用户取消分享后执行的回调函数  
+                }  
+              };
+              wx.onMenuShareAppMessage(shareData);
+              wx.onMenuShareTimeline(shareData);
+              wx.onMenuShareQQ(shareData);
+              wx.onMenuShareWeibo(shareData);
+            });
+            wx.error(function (res) {
+              alert(res.errMsg);
+            });
+          }
+      });
+    });
+    </script>
 </body>
 </html>
