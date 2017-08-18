@@ -14,6 +14,7 @@ global.rootdir = __dirname;
 global.logger = require('./common/logger').logger;
 global.emailLogger = require('./common/logger').emailLogger;
 global.wechatApi = require('./modules/wechatApi');
+require("./common/CONST");
 
 // var task = require('./task/weixin');
 // task.refresh(); // 定时刷新toekn jsapi-ticket // 因为wechat-api组件会自动刷新toekn，所以暂时屏蔽掉这个定时器

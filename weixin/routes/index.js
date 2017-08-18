@@ -292,16 +292,6 @@ router.get('/qrcode', function (req, res, next) {
 	});
 });
 
-// router.get('/login', function(req, res, next) {
-// 	res.render('login', {title: "登录页"});
-// });
-
-// router.post('/login', function (req, res, next) {
-// 	console.log('post login');
-// 	res.json({
-// 		code: 1,
-// 		message: "success"
-// 	});
-// });
+router.post('/userRegister', user.register);
 
 module.exports = router;
